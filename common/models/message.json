@@ -1,0 +1,65 @@
+{
+  "name": "Message",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": false
+  },
+  "mixins": {
+    "ImmutableRemote": true
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "generated": true
+    },
+    "contents": {
+      "type": "string",
+      "required": true,
+      "postgresql": {
+        "dataType": "text"
+      }
+    },
+    "recipientId": {
+      "type": "string",
+      "index": true,
+      "postgresql": {
+        "dataType": "uuid"
+      }
+    },
+    "senderId": {
+      "type": "string",
+      "index": true,
+      "postgresql": {
+        "dataType": "uuid"
+      }
+    },
+    "createdAt": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "sender": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": "senderId",
+      "options": {
+        "onDelete": "set null"
+      }
+    },
+    "recipient": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": "recipientId",
+      "options": {
+        "onDelete": "set null"
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

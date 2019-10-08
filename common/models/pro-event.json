@@ -1,0 +1,101 @@
+{
+  "name": "ProEvent",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": false
+  },
+  "mixins": {
+    "TimeStamp": true,
+    "ReadOnlyRemote": true
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "generated": true
+    },
+    "proLeagueId": {
+      "type": "number",
+      "index": true
+    },
+    "startDate": {
+      "type": "date",
+      "required": true,
+      "index": true,
+      "description": "Scheduled game start date and time"
+    },
+    "scoreConfirmed": {
+      "type": "boolean",
+      "required": true,
+      "description": "Whether score data has been finalized",
+      "default": false
+    },
+    "boxDataConfirmed": {
+      "type": "boolean",
+      "required": true,
+      "description": "Whether box score data has been finalized",
+      "default": false
+    },
+    "winnerId": {
+      "type": "number",
+      "description": "ID of the ProTeam that won the event"
+    },
+    "round": {
+      "type": "string",
+      "description": "Name of the eventRound provided by Stats.com API. See docs/event-round.md"
+    },
+    "statsId": {
+      "type": "number",
+      "index": true
+    },
+    "statsActive": {
+      "type": "boolean",
+      "index": true,
+      "description": "Whether this league was present in the most recent import from the Stats.com API",
+      "default": true
+    },
+    "statsRawData": {
+      "type": "object",
+      "description": "Raw JSON resource imported from the Stats.com API",
+      "postgresql": {
+        "dataType": "jsonb"
+      }
+    },
+    "statsRawBoxScoreData": {
+      "type": "object",
+      "description": "The raw box score data (event.boxscores) imported from the Stats.com API",
+      "postgresql": {
+        "dataType": "jsonb"
+      }
+    },
+    "statsRawPeriodDetailsData": {
+      "type": "object",
+      "description": "The raw period details data (event.periodDetails) imported from the Stats.com API",
+      "postgresql": {
+        "dataType": "jsonb"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "proLeague": {
+      "type": "belongsTo",
+      "model": "ProLeague",
+      "foreignKey": "proLeagueId",
+      "options": {
+        "onDelete": "set null"
+      }
+    },
+    "winner": {
+      "type": "belongsTo",
+      "model": "ProTeam",
+      "foreignKey": "winnerId",
+      "options": {
+        "onDelete": "set null"
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

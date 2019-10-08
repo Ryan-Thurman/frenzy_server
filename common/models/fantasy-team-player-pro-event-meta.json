@@ -1,0 +1,60 @@
+{
+  "name": "FantasyTeamPlayerProEventMeta",
+  "description": "Stores a record of which players were benched or in play on each FantasyTeam during a given ProEvent",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": true,
+    "ReadOnlyRemote": true
+  },
+  "properties": {
+    "fantasyTeamId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    },
+    "proPlayerId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    },
+    "proEventId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    },
+    "position": {
+      "type": "string",
+      "description": "Position the team owner had assigned to this player during the event, or null if player was benched"
+    },
+    "positionOrder": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "fantasyTeam": {
+      "type": "belongsTo",
+      "model": "FantasyTeam",
+      "foreignKey": "fantasyTeamId"
+    },
+    "proPlayer": {
+      "type": "belongsTo",
+      "model": "ProPlayer",
+      "foreignKey": "proPlayerId"
+    },
+    "proEvent": {
+      "type": "belongsTo",
+      "model": "ProEvent",
+      "foreignKey": "proEventId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,59 @@
+{
+  "name": "RealtimeAPIEvent",
+  "base": "Model",
+  "idInjection": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "description": "UUID to identify this event",
+      "defaultFn": "uuidv4",
+      "postgresql": {
+        "dataType": "uuid"
+      }
+    },
+    "eventName": {
+      "type": "string",
+      "required": true,
+      "description": "Name of the event to which listeners will bind"
+    },
+    "senderId": {
+      "type": "string",
+      "required": false,
+      "index": true,
+      "description": "Customer.id of the user who sent this event, or NULL if it was a server-originated event",
+      "postgresql": {
+        "dataType": "uuid"
+      }
+    },
+    "at": {
+      "type": "date",
+      "required": true,
+      "index": true,
+      "description": "Date/timestamp with millisecond-level precision",
+      "defaultFn": "now"
+    },
+    "data": {
+      "type": "object",
+      "required": true,
+      "description": "Data payload, varies by event",
+      "postgresql": {
+        "dataType": "jsonb"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": "senderId",
+      "options": {
+        "disableInclude": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

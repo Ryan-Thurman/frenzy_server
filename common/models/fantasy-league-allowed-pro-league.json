@@ -1,0 +1,35 @@
+{
+  "name": "FantasyLeagueAllowedProLeague",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "fantasyLeagueId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    },
+    "proLeagueId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "fantasyLeague": {
+      "type": "belongsTo",
+      "model": "FantasyLeague",
+      "foreignKey": "fantasyLeagueId"
+    },
+    "proLeague": {
+      "type": "belongsTo",
+      "model": "ProLeague",
+      "foreignKey": "proLeagueId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,197 @@
+{
+  "name": "Customer",
+  "base": "User",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": false
+  },
+  "mixins": {
+    "TimeStamp": true,
+    "ReadOnly": {
+      "id": true,
+      "points": true,
+      "usdWalletBalance": true,
+      "lastLogin": true,
+      "realm": true,
+      "emailVerified": true,
+      "verificationToken": true,
+      "createdAt": true,
+      "updatedAt": true
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "defaultFn": "uuid",
+      "postgresql": {
+        "dataType": "uuid"
+      }
+    },
+    "username": {
+      "type": "string",
+      "required": true
+    },
+    "avatar": {
+      "type": "string"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "points": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "usdWalletBalance": {
+      "type": "string",
+      "required": true,
+      "default": "0.00",
+      "postgresql": {
+        "dataType": "DECIMAL",
+        "dataPrecision": 19,
+        "dataScale": 4
+      }
+    },
+    "lastLogin": {
+      "type": "date"
+    },
+    "worldCup2018ContestBracketId": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "favoriteProLeagues": {
+      "type": "hasMany",
+      "model": "ProLeague",
+      "foreignKey": "customerId",
+      "through": "FavoriteLeague"
+    },
+    "favoriteProTeams": {
+      "type": "hasMany",
+      "model": "ProTeam",
+      "foreignKey": "customerId",
+      "through": "FavoriteTeam"
+    },
+    "fantasyTeams": {
+      "type": "hasMany",
+      "model": "FantasyTeam",
+      "foreignKey": "ownerId"
+    },
+    "joinedFantasyLeagues": {
+      "type": "hasMany",
+      "model": "FantasyLeague",
+      "foreignKey": "ownerId",
+      "through": "FantasyTeam"
+    },
+    "ownsFantasyLeagues": {
+      "type": "hasMany",
+      "model": "FantasyLeague",
+      "foreignKey": "ownerId"
+    },
+    "brackets": {
+      "type": "hasMany",
+      "model": "Bracket",
+      "foreignKey": "ownerId"
+    },
+    "worldCup2018ContestBracket": {
+      "type": "belongsTo",
+      "model": "Bracket",
+      "foreignKey": "worldCup2018ContestBracketId"
+    }
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "DENY",
+      "property": "deleteById"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": [
+        "id",
+        "username",
+        "avatar",
+        "firstName",
+        "lastName",
+        "points",
+        "usdWalletBalance",
+        "lastLogin",
+        "worldCup2018ContestBracketId",
+        "realm",
+        "email",
+        "emailVerified",
+        "createdAt",
+        "updatedAt",
+        "favoriteProLeagues",
+        "favoriteProTeams",
+        "joinedFantasyLeagues",
+        "ownsFantasyLeagues"
+      ]
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "DENY",
+      "property": [
+        "password",
+        "verificationToken"
+      ]
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": [
+        "username",
+        "avatar",
+        "firstName",
+        "lastName",
+        "email",
+        "password",
+        "worldCup2018ContestBracketId",
+        "favoriteProLeagues",
+        "favoriteProTeams",
+        "joinedFantasyLeagues",
+        "ownsFantasyLeagues"
+      ]
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": [
+        "id",
+        "username",
+        "avatar",
+        "points"
+      ]
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": [
+        "exists",
+        "findById",
+        "find",
+        "findOne",
+        "count"
+      ]
+    }
+  ],
+  "methods": {}
+}

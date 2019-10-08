@@ -1,0 +1,50 @@
+{
+  "name": "FantasyTeamPlayer",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "indexes": {
+    "position_position_order_idx": {
+      "keys": {
+        "position": 1,
+        "positionOrder": 1
+      }
+    }
+  },
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "fantasyTeamId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    },
+    "proPlayerId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    },
+    "position": {
+      "type": "string",
+      "description": "Position the team owner has currently assigned to this player, or null if player is benched"
+    },
+    "positionOrder": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "fantasyTeam": {
+      "type": "belongsTo",
+      "model": "FantasyTeam",
+      "foreignKey": "fantasyTeamId"
+    },
+    "proPlayer": {
+      "type": "belongsTo",
+      "model": "ProPlayer",
+      "foreignKey": "proPlayerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

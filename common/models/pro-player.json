@@ -1,0 +1,72 @@
+{
+  "name": "ProPlayer",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": false
+  },
+  "mixins": {
+    "TimeStamp": true,
+    "ReadOnlyRemote": true
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "generated": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "proTeamId": {
+      "type": "number",
+      "index": true
+    },
+    "proLeagueId": {
+      "type": "number",
+      "index": true
+    },
+    "statsId": {
+      "type": "number",
+      "index": true
+    },
+    "position": {
+      "type": "string"
+    },
+    "statsActive": {
+      "type": "boolean",
+      "index": true,
+      "description": "Whether this league was present in the most recent import from the Stats.com API",
+      "default": true
+    },
+    "statsRawData": {
+      "type": "object",
+      "description": "Raw JSON resource imported from the Stats.com API",
+      "postgresql": {
+        "dataType": "jsonb"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "proTeam": {
+      "type": "belongsTo",
+      "model": "ProTeam",
+      "foreignKey": "proTeamId",
+      "options": {
+        "onDelete": "set null"
+      }
+    },
+    "proLeague": {
+      "type": "belongsTo",
+      "model": "ProLeague",
+      "foreignKey": "proLeagueId",
+      "options": {
+        "onDelete": "set null"
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

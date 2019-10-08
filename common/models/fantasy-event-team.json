@@ -1,0 +1,42 @@
+{
+  "name": "FantasyEventTeam",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "fantasyEventId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    },
+    "fantasyTeamId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    },
+    "points": {
+      "type": "number",
+      "description": "Total points this team has earned per FantasyLeague scoring rules",
+      "postgresql": {
+        "dataType": "numeric(8, 2)"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "fantasyEvent": {
+      "type": "belongsTo",
+      "model": "FantasyEvent",
+      "foreignKey": "fantasyEventId"
+    },
+    "fantasyTeam": {
+      "type": "belongsTo",
+      "model": "FantasyTeam",
+      "foreignKey": "fantasyTeamId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

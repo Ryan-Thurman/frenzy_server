@@ -1,0 +1,67 @@
+{
+  "name": "ProLeague",
+  "description": "A real-world league",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": false
+  },
+  "mixins": {
+    "TimeStamp": true,
+    "ReadOnlyRemote": true
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "generated": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "statsId": {
+      "type": "number",
+      "index": true,
+      "description": "ID of this league in the Stats.com API"
+    },
+    "statsPath": {
+      "type": "string",
+      "index": true,
+      "description": "Path of this league in the Stats.com API"
+    },
+    "statsActive": {
+      "type": "boolean",
+      "index": true,
+      "description": "Whether this league was present in the most recent import from the Stats.com API",
+      "default": true
+    },
+    "statsRawData": {
+      "type": "object",
+      "description": "Raw JSON resource imported from the Stats.com API",
+      "postgresql": {
+        "dataType": "jsonb"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "proTeams": {
+      "type": "hasMany",
+      "model": "ProTeam",
+      "foreignKey": "proLeagueId"
+    },
+    "proPlayers": {
+      "type": "hasMany",
+      "model": "ProPlayer",
+      "foreignKey": "proLeagueId"
+    },
+    "proEvents": {
+      "type": "hasMany",
+      "model": "ProEvent",
+      "foreignKey": "proLeagueId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

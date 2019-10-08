@@ -1,0 +1,38 @@
+{
+  "name": "FavoriteTeam",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "customerId": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "postgresql": {
+        "dataType": "uuid"
+      }
+    },
+    "proTeamId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": "customerId"
+    },
+    "proTeam": {
+      "type": "belongsTo",
+      "model": "ProTeam",
+      "foreignKey": "proTeamId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

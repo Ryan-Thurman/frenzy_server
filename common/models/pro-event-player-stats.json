@@ -1,0 +1,160 @@
+{
+  "name": "ProEventPlayerStats",
+  "description": "Stores player stats for each ProEvent",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": true,
+    "ReadOnlyRemote": true
+  },
+  "properties": {
+    "proEventId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    },
+    "proPlayerId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    },
+    "minutesPlayed": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      },
+      "description": "Total amount of playtime for this player"
+    },
+    "goals": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      },
+      "description": "Number of goals this player scored"
+    },
+    "ownGoals": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      },
+      "description": "Number of goals this player scored against their own team"
+    },
+    "goalsAllowed": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      },
+      "description": "Number of goals scored against this player as a goalkeeper"
+    },
+    "penaltyShots": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      },
+      "description": "Number of penalty shots awarded to this player"
+    },
+    "penaltyGoals": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "clears": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "foulsCommitted": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "assists": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "tackles": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "saves": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      },
+      "description": "Number of saves made as a goalkeeper"
+    },
+    "keyPasses": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "passesAttempted": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "passesCompleted": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "redCards": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "yellowCards": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "offsides": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "interceptions": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "blocks": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "proEvent": {
+      "type": "belongsTo",
+      "model": "ProEvent",
+      "foreignKey": "proEventId"
+    },
+    "proPlayer": {
+      "type": "belongsTo",
+      "model": "ProPlayer",
+      "foreignKey": "proPlayerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

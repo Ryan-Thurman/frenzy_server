@@ -1,0 +1,26 @@
+{
+  "name": "DraftEvent",
+  "base": "RealtimeAPIEvent",
+  "idInjection": false,
+  "properties": {
+    "fantasyLeagueId": {
+      "type": "number",
+      "required": true,
+      "index": true,
+      "description": "FantasyLeague.id to which this draft event belongs"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "fantasyLeague": {
+      "type": "belongsTo",
+      "model": "FantasyLeague",
+      "foreignKey": "fantasyLeagueId",
+      "options": {
+        "disableInclude": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

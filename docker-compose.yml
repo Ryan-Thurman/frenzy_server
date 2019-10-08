@@ -1,0 +1,46 @@
+version: '2'
+services:
+  api:
+    build: .
+    command: dev
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    environment:
+      NODE_ENV: docker
+      # DEBUG: loopback:connector:postgresql
+      # ENABLE_STATS_ROSTER_IMPORT_TASK: 'true'
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - postgres
+      - redis
+  postgres:
+    image: postgres:10.3-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: futbol_frenzy
+  adminer:
+    image: adminer:latest
+    volumes:
+      - /sessions
+    ports:
+      - "8081:8080"
+    environment:
+      ADMINER_DESIGN: pappu687
+  redis:
+    image: redis:4.0.8-alpine
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+volumes:
+  db-data:
+  redis-data:

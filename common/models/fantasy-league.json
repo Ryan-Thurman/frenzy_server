@@ -1,0 +1,419 @@
+{
+  "name": "FantasyLeague",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": false
+  },
+  "mixins": {
+    "TimeStamp": true,
+    "ReadOnly": {
+      "id": true,
+      "currentPickNumber": true,
+      "currentPickingFantasyTeamId": true,
+      "currentPickStartsAt": true,
+      "currentPickEndsAt": true,
+      "dayOfWeek": true,
+      "seasonHalf": true,
+      "gamesPlayed": true,
+      "lastEventId": true,
+      "createdAt": true,
+      "updatedAt": true
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "generated": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "ownerId": {
+      "type": "string",
+      "index": true,
+      "postgresql": {
+        "dataType": "uuid"
+      }
+    },
+    "leagueState": {
+      "type": "string",
+      "description": "One of `preDraft`, `cancelled`, `drafting`, `postDraft`, `inProgress`, `finalized`"
+    },
+    "minTeams": {
+      "type": "number",
+      "description": "At least this many users must join the league before the draft starts, or the draft will be aborted"
+    },
+    "maxTeams": {
+      "type": "number",
+      "description": "No more than this many users may join the league"
+    },
+    "playersPerTeam": {
+      "type": "number",
+      "required": true,
+      "description": "The number of players that may be added to each fantasyTeam in the league",
+      "default": 17
+    },
+    "startDate": {
+      "type": "date"
+    },
+    "endDate": {
+      "type": "date"
+    },
+    "draftDate": {
+      "type": "date",
+      "description": "Date/timestamp of when the draft should begin"
+    },
+    "currentPickNumber": {
+      "type": "number",
+      "description": "During the draft, increments by 1 every time a new picking turn starts",
+      "default": null
+    },
+    "currentPickingFantasyTeamId": {
+      "type": "number",
+      "description": "During the draft, FantasyTeam.id whose turn it is to pick a player",
+      "default": null
+    },
+    "timePerPick": {
+      "type": "number",
+      "required": true,
+      "description": "During the draft, the number of seconds per picking turn",
+      "default": 30
+    },
+    "currentPickStartsAt": {
+      "type": "date",
+      "description": "During the draft, date/timestamp of when the current picking turn started",
+      "default": null
+    },
+    "currentPickEndsAt": {
+      "type": "date",
+      "description": "During the draft, date/timestamp of when the current picking turn will end",
+      "default": null
+    },
+    "leagueDuration": {
+      "type": "string",
+      "default": "custom"
+    },
+    "dayOfWeek": {
+      "type": "number",
+      "description": "For an auto-generated weekly league, the day of the week this league is associated with, 0-6 (Sunday-Saturday)",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "seasonHalf": {
+      "type": "number",
+      "description": "For an auto-generated half-season league, the half of the season this league is associated with, 0/first or 1/second)",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "allowedLineupIds": {
+      "type": [
+        "number"
+      ]
+    },
+    "gamesPlayed": {
+      "type": "number",
+      "required": true,
+      "default": 1
+    },
+    "lastEventId": {
+      "type": "string",
+      "description": "ID of the most recent DraftEvent",
+      "postgresql": {
+        "dataType": "uuid"
+      },
+      "default": null
+    },
+    "pointsForPlay60": {
+      "type": "number",
+      "required": true,
+      "default": 2,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForPlay90": {
+      "type": "number",
+      "required": true,
+      "default": 3,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForDefGoal": {
+      "type": "number",
+      "required": true,
+      "default": 12,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForMidGoal": {
+      "type": "number",
+      "required": true,
+      "default": 12,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForFwdGoal": {
+      "type": "number",
+      "required": true,
+      "default": 12,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForAssist": {
+      "type": "number",
+      "required": true,
+      "default": 8,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForDribble": {
+      "type": "number",
+      "required": true,
+      "default": 1,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForOffsides": {
+      "type": "number",
+      "required": true,
+      "default": -1,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForDefCleanSheet": {
+      "type": "number",
+      "required": true,
+      "default": 4,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForKeeperCleanSheet": {
+      "type": "number",
+      "required": true,
+      "default": 10,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForMidCleanSheet": {
+      "type": "number",
+      "required": true,
+      "default": 1,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForPass70": {
+      "type": "number",
+      "required": true,
+      "default": 3,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForPass80": {
+      "type": "number",
+      "required": true,
+      "default": 5,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForPass90": {
+      "type": "number",
+      "required": true,
+      "default": 8,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForKeyPass": {
+      "type": "number",
+      "required": true,
+      "default": 2,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForBigChance": {
+      "type": "number",
+      "required": true,
+      "default": 3,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForSave": {
+      "type": "number",
+      "required": true,
+      "default": 1,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForTackle": {
+      "type": "number",
+      "required": true,
+      "default": 2,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForPenSave": {
+      "type": "number",
+      "required": true,
+      "default": 5,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForPenMiss": {
+      "type": "number",
+      "required": true,
+      "default": -2,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForKeeperGoalAllowed": {
+      "type": "number",
+      "required": true,
+      "default": -2,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForDefGoalAllowed": {
+      "type": "number",
+      "required": true,
+      "default": -1,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForClearance": {
+      "type": "number",
+      "required": true,
+      "default": 0.5,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForBlocks": {
+      "type": "number",
+      "required": true,
+      "default": 0.5,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForInterceptions": {
+      "type": "number",
+      "required": true,
+      "default": 0.5,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForYellowCard": {
+      "type": "number",
+      "required": true,
+      "default": -1,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForRedCard": {
+      "type": "number",
+      "required": true,
+      "default": -3,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForOwnGoal": {
+      "type": "number",
+      "required": true,
+      "default": -3,
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "pointsForOwnGoalError": {
+      "type": "number",
+      "required": true,
+      "default": -2,
+      "postgresql": {
+        "dataType": "float"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "owner": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": "ownerId",
+      "options": {
+        "onDelete": "set null"
+      }
+    },
+    "members": {
+      "type": "hasMany",
+      "model": "Customer",
+      "foreignKey": "fantasyLeagueId",
+      "keyThrough": "ownerId",
+      "through": "FantasyTeam"
+    },
+    "fantasyTeams": {
+      "type": "hasMany",
+      "model": "FantasyTeam",
+      "foreignKey": "fantasyLeagueId"
+    },
+    "allowedProLeagues": {
+      "type": "hasMany",
+      "model": "ProLeague",
+      "foreignKey": "fantasyLeagueId",
+      "through": "FantasyLeagueAllowedProLeague"
+    },
+    "allowedLineups": {
+      "type": "referencesMany",
+      "model": "Lineup",
+      "foreignKey": "allowedLineupIds"
+    },
+    "lastEvent": {
+      "type": "belongsTo",
+      "model": "DraftEvent",
+      "foreignKey": "lastEventId"
+    }
+  },
+  "acls": [],
+  "methods": {
+    "prototype.getDraft": {
+      "accepts": [],
+      "returns": {
+        "arg": "data",
+        "type": "Draft",
+        "root": true
+      },
+      "description": "Gets the denormalized draft view of the league with nested players and teams",
+      "http": {
+        "path": "/draft",
+        "verb": "get"
+      }
+    }
+  }
+}

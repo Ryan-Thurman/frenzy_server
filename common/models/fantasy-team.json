@@ -1,0 +1,97 @@
+{
+  "name": "FantasyTeam",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "indexes": {
+    "league_pick_order_unique_idx": {
+      "keys": {
+        "fantasyLeagueId": 1,
+        "pickOrder": 1
+      },
+      "options": {
+        "unique": true
+      }
+    }
+  },
+  "options": {
+    "validateUpsert": false
+  },
+  "mixins": {
+    "TimeStamp": true,
+    "ReadOnly": {
+      "readyForPlay": true
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "generated": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "ownerId": {
+      "type": "string",
+      "required": true,
+      "index": true,
+      "postgresql": {
+        "dataType": "uuid"
+      }
+    },
+    "fantasyLeagueId": {
+      "type": "number",
+      "required": true,
+      "index": true
+    },
+    "lineupId": {
+      "type": "number",
+      "required": false
+    },
+    "readyForPlay": {
+      "type": "boolean",
+      "required": true,
+      "description": "Whether the team is completely configured and ready for play",
+      "default": false
+    },
+    "pickOrder": {
+      "type": "number",
+      "description": "Turn order for this team in the draft picks. Zero-indexed.",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "owner": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": "ownerId"
+    },
+    "fantasyLeague": {
+      "type": "belongsTo",
+      "model": "FantasyLeague",
+      "foreignKey": "fantasyLeagueId"
+    },
+    "fantasyTeamPlayers": {
+      "type": "hasMany",
+      "model": "FantasyTeamPlayer",
+      "foreignKey": "fantasyTeamId"
+    },
+    "players": {
+      "type": "hasMany",
+      "model": "ProPlayer",
+      "foreignKey": "fantasyTeamId",
+      "through": "FantasyTeamPlayer"
+    },
+    "lineup": {
+      "type": "belongsTo",
+      "model": "Lineup",
+      "foreignKey": "lineupId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,72 @@
+{
+  "name": "Draft",
+  "description": "A denormalized version of the FantasyLeague optimized for use with the realtime draft API",
+  "base": "Model",
+  "idInjection": false,
+  "properties": {
+    "fantasyLeagueId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    },
+    "pickOrderFantasyTeamIds": {
+      "type": [
+        "number"
+      ],
+      "description": "Fantasy team ids in their picking order"
+    },
+    "currentPickNumber": {
+      "type": "number",
+      "description": "Increments by 1 every time a new picking turn starts"
+    },
+    "currentPickingFantasyTeamId": {
+      "type": "number",
+      "description": "FantasyTeam.id whose turn it is to pick a player"
+    },
+    "timePerPick": {
+      "type": "number",
+      "description": "The number of seconds per picking turn"
+    },
+    "currentPickStartsAt": {
+      "type": "date",
+      "description": "Date/timestamp of when the current picking turn started"
+    },
+    "currentPickEndsAt": {
+      "type": "date",
+      "description": "Date/timestamp of when the current picking turn will end"
+    },
+    "availableProPlayerIds": {
+      "type": [
+        "number"
+      ]
+    },
+    "lastEventId": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "teams": {
+      "type": "hasMany",
+      "model": "FantasyTeam",
+      "foreignKey": "fantasyLeagueId"
+    },
+    "fantasyLeague": {
+      "type": "belongsTo",
+      "model": "FantasyLeague",
+      "foreignKey": "fantasyLeagueId"
+    },
+    "pickOrder": {
+      "type": "referencesMany",
+      "model": "FantasyTeam",
+      "foreignKey": "pickOrderFantasyTeamIds"
+    },
+    "availablePlayers": {
+      "type": "referencesMany",
+      "model": "ProPlayer",
+      "foreignKey": "availableProPlayerIds"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,33 @@
+# Boilerplate
+bitbucket-pipelines.yml
+.env.example
+.yo-rc.json
+
+# Docker files
+.dockerignore
+docker-compose.yml
+Dockerfile
+
+# Documentation
+/docs
+README.md
+
+# Locally-installed Dependencies
+node_modules
+
+# Elastic Beanstalk Configuration
+.ebextensions
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# Editor files
+.editorconfig
+.vscode
+*.code-workspace
+jsconfig.json
+
+# Git files
+.git
+.gitignore
+.gitattributes

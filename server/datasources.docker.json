@@ -1,0 +1,16 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "postgresDb": {
+    "host": "postgres",
+    "port": 5432,
+    "url": "",
+    "database": "futbol_frenzy",
+    "password": "",
+    "name": "postgresDb",
+    "user": "postgres",
+    "connector": "postgresql"
+  }
+}

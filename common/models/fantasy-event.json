@@ -1,0 +1,65 @@
+{
+  "name": "FantasyEvent",
+  "description": "A simulated match between two fantasy teams in a league",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "generated": true
+    },
+    "fantasyLeagueId": {
+      "type": "number",
+      "index": true,
+      "required": true
+    },
+    "startDate": {
+      "type": "date",
+      "index": true,
+      "required": true
+    },
+    "endDate": {
+      "type": "date",
+      "required": true
+    },
+    "round": {
+      "type": "number",
+      "description": "Starting at 1, the nth game of the league for the participating teams",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "winnerId": {
+      "type": "number",
+      "index": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "fantasyLeague": {
+      "type": "belongsTo",
+      "model": "FantasyLeague",
+      "foreignKey": "fantasyLeagueId"
+    },
+    "fantasyTeams": {
+      "type": "hasMany",
+      "model": "FantasyTeam",
+      "foreignKey": "fantasyEventId",
+      "through": "FantasyEventTeams"
+    },
+    "winner": {
+      "type": "belongsTo",
+      "model": "FantasyTeam",
+      "foreignKey": "winnerId",
+      "options": {
+        "onDelete": "set null"
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

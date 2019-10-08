@@ -1,0 +1,43 @@
+{
+  "name": "Lineup",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": false
+  },
+  "mixins": {
+    "ReadOnlyRemote": true,
+    "ReadOnly": true
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "defender": {
+      "type": "number",
+      "required": true
+    },
+    "midfielder": {
+      "type": "number",
+      "required": true
+    },
+    "forward": {
+      "type": "number",
+      "required": true
+    },
+    "goalkeeper": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

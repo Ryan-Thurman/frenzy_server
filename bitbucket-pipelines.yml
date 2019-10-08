@@ -1,0 +1,25 @@
+image: node:8.11.1
+
+options:
+  max-time: 10
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - node
+        script:
+          - npm install
+          - npm test
+        services:
+          - postgres
+          - redis
+
+definitions:
+  services:
+    postgres:
+      image: postgres
+      environment:
+        POSTGRES_DB: futbol_frenzy
+    redis:
+      image: redis

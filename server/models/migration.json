@@ -1,0 +1,40 @@
+{
+  "name": "migration",
+  "description": "Database migrations managed by node-pg-migrate. Used by bin/install-db",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": false,
+    "postgresql": {
+      "table": "pgmigrations"
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "generated": true
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "postgresql": {
+        "dataType": "VARCHAR",
+        "dataLength": 255,
+        "nullable": false
+      }
+    },
+    "run_on": {
+      "type": "date",
+      "required": true,
+      "postgresql": {
+        "dataType": "timestamp",
+        "nullable": false
+      }
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

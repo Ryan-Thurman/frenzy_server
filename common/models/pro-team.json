@@ -1,0 +1,83 @@
+{
+  "name": "ProTeam",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": false
+  },
+  "mixins": {
+    "TimeStamp": true,
+    "ReadOnlyRemote": true
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "id": true,
+      "generated": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "proLeagueId": {
+      "type": "number",
+      "index": true
+    },
+    "fifaGroup": {
+      "type": "string",
+      "description": "For world cup teams, the seed group letter, lowercased",
+      "postgresql": {
+        "dataType": "char(1)"
+      }
+    },
+    "fifaGroupRank": {
+      "type": "number",
+      "description": "For world cup teams, the final ranking of the team in its seed group, 1-4",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "statsId": {
+      "type": "number",
+      "index": true
+    },
+    "statsActive": {
+      "type": "boolean",
+      "index": true,
+      "description": "Whether this league was present in the most recent import from the Stats.com API",
+      "default": true
+    },
+    "statsRawData": {
+      "type": "object",
+      "description": "Raw JSON resource imported from the Stats.com /teams endpoint",
+      "postgresql": {
+        "dataType": "jsonb"
+      }
+    },
+    "statsRawStanding": {
+      "type": "object",
+      "description": "Raw JSON resource imported from the Stats.com /standings endpoint",
+      "postgresql": {
+        "dataType": "jsonb"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "proLeague": {
+      "type": "belongsTo",
+      "model": "ProLeague",
+      "foreignKey": "proLeagueId",
+      "options": {
+        "onDelete": "set null"
+      }
+    },
+    "proPlayers": {
+      "type": "hasMany",
+      "model": "ProPlayer",
+      "foreignKey": "proTeamId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

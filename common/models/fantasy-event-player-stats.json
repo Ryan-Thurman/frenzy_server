@@ -1,0 +1,193 @@
+{
+  "name": "FantasyEventPlayerStats",
+  "description": "Player statistics for each FantasyEvent",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "ReadOnlyRemote": true
+  },
+  "properties": {
+    "fantasyEventId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    },
+    "proPlayerId": {
+      "type": "number",
+      "id": true,
+      "required": true
+    },
+    "minutesPlayed": {
+      "type": "number",
+      "description": "Total amount of playtime for this player",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "proEventsPlayed": {
+      "type": "number",
+      "description": "Total number of ProEvents this player played in",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "minutesPerProEvent": {
+      "type": "number",
+      "description": "minutesPlayed divided by proEventsPlayed",
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "points": {
+      "type": "number",
+      "description": "Number of points this player has earned per FantasyLeague scoring rules",
+      "postgresql": {
+        "dataType": "numeric(8, 2)"
+      }
+    },
+    "goals": {
+      "type": "number",
+      "description": "Number of goals this player scored",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "ownGoals": {
+      "type": "number",
+      "description": "Number of goals this player scored against their own team",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "goalsAllowed": {
+      "type": "number",
+      "description": "Number of goals scored against this player as a goalkeeper",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "penaltyShots": {
+      "type": "number",
+      "description": "Number of penalty shots awarded to this player",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "penaltyGoals": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "clears": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "foulsCommitted": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "assists": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "tackles": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "saves": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "keyPasses": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "passesCompleted": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "passesAttempted": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "passCompletionPercentage": {
+      "type": "number",
+      "description": "passesCompleted / passesAttempted * 100",
+      "postgresql": {
+        "dataType": "float"
+      }
+    },
+    "redCards": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "yellowCards": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "offsides": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "interceptions": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "blocks": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    },
+    "cleanSheets": {
+      "type": "number",
+      "description": "Number of proEvents where this player allowed no goals as a defender",
+      "postgresql": {
+        "dataType": "smallint"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "fantasyEvent": {
+      "type": "belongsTo",
+      "model": "FantasyEvent",
+      "foreignKey": "fantasyEventId"
+    },
+    "proPlayer": {
+      "type": "belongsTo",
+      "model": "ProPlayer",
+      "foreignKey": "proPlayerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
