@@ -1,0 +1,12 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+      "Name": "rthurman/frenzy-api"
+    },
+    "Ports": [
+      {
+        "ContainerPort": "5000",
+        "HostPort": "8080"
+      }
+    ]
+  }
