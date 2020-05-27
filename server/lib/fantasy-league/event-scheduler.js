@@ -5,6 +5,7 @@ const {promisify} = require('util');
 const robin = require('roundrobin');
 
 const postgresDb = app.dataSources.postgresDb;
+console.log(app.dataSource)
 const query = promisify(postgresDb.connector.execute).bind(postgresDb.connector);
 
 module.exports = {
@@ -16,7 +17,7 @@ module.exports = {
 /**
  * Schedule fantasyEvents for the given fantasyLeague
  * @param {FantasyLeague} fantasyLeague
- */ 
+ */
 async function scheduleEvents(fantasyLeague) {
   const {FantasyLeague} = app.models;
 

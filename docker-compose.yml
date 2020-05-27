@@ -36,7 +36,7 @@ services:
     environment:
       ADMINER_DESIGN: pappu687
   redis:
-    image: redis:4.0.8-alpine
+    image: redis
     volumes:
       - redis-data:/data
     ports:

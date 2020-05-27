@@ -5,6 +5,7 @@ const app = require('../../server/server');
 const {promisify} = require('util');
 
 const postgresDb = app.dataSources.postgresDb;
+console.log(app.dataSources.postgresDb)
 const query = promisify(postgresDb.connector.execute).bind(postgresDb.connector);
 
 module.exports = function(Draft) {

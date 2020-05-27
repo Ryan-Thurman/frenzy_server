@@ -8,8 +8,6 @@ const realtimeServer = require('./lib/realtime-server');
 // Load .env file contents into process.env
 env.config();
 
-console.log(process.env)
-
 const app = module.exports = loopback();
 
 app.start = () => {
