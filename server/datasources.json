@@ -3,16 +3,6 @@
     "name": "db",
     "connector": "memory"
   },
-  "postgresDb": {
-    "host": "localhost",
-    "port": 5432,
-    "url": "",
-    "database": "futbol_frenzy",
-    "password": "",
-    "name": "postgresDb",
-    "user": "postgres",
-    "connector": "postgresql"
-  },
   "transient": {
     "name": "transient",
     "connector": "transient"

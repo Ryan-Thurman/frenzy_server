@@ -10,7 +10,6 @@ module.exports = {
     port: process.env.RDS_PORT || 5432,
     database: process.env.RDS_DB_NAME,
     password: process.env.RDS_PASSWORD,
-    name: 'postgresDb',
     user: process.env.RDS_USERNAME,
     connector: 'postgresql',
   },

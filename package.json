@@ -6,7 +6,7 @@
     "node": ">=8"
   },
   "scripts": {
-    "start": "node .",
+    "start": "node server/server.js",
     "lint": "eslint --ext .json --ext .js .",
     "db:install": "node bin/install-db.js ",
     "db:migrate": "node-pg-migrate --config-file=server/db/migration-config.js --migrations-dir=server/db/migrations",

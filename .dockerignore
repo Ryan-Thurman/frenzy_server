@@ -31,3 +31,7 @@ jsconfig.json
 .git
 .gitignore
 .gitattributes
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+.git
+.gitignore

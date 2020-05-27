@@ -42,6 +42,12 @@
       "type": "string",
       "description": "One of `preDraft`, `cancelled`, `drafting`, `postDraft`, `inProgress`, `finalized`"
     },
+    "allowedLeagueIds": {
+      "type": [
+        "number"
+      ],
+      "description": "One of `preDraft`, `cancelled`, `drafting`, `postDraft`, `inProgress`, `finalized`"
+    },
     "minTeams": {
       "type": "number",
       "description": "At least this many users must join the league before the draft starts, or the draft will be aborted"

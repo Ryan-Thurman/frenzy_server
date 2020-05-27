@@ -90,13 +90,6 @@ class TaskListManager {
         timeToKeepLogs: 10 * MINUTE,
         envSwitch: 'RUN_DRAFTS',
       }),
-      new Task({
-        name: 'fantasyLeagueGenerator',
-        process: require('./tasks/fantasy-league-generator'),
-        every: 2 * MINUTE,
-        timeToKeepLogs: 2 * HOUR,
-        envSwitch: 'GENERATE_LEAGUES',
-      }),
     ];
 
     this.resetToDefault();
