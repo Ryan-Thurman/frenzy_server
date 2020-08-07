@@ -30,6 +30,7 @@ async function doStatsImport(app, whitelist = [], blacklist = []) {
     const updatedProPlayers = await importPlayers({models}, leaguesToImport);
 
     updatedCount = updatedProLeagues.length + updatedProTeams.length + updatedProPlayers.length;
+    // updatedCount = updatedProTeams.length ;
   });
   return updatedCount;
 }

@@ -26,7 +26,7 @@ if (require.main === module) {
   process.on('unhandledRejection', _handleError);
 
   const app = require('../server/server');
-  console.log(app.dataSource.postgresDb)
+  console.log('connector', app.dataSource.postgresDb)
   migrate(app, app.dataSources.postgresDb);
 
   function _handleError(err) {

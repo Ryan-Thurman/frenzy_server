@@ -1,1 +1,18 @@
-{}
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "transient": {
+    "name": "transient",
+    "connector": "transient"
+  },
+  "postgresDb": {
+    "host": "postgres",
+    "port": 5432,
+    "database": "postgres",
+    "password": "A!ndrew2",
+    "user": "postgres",
+    "connector": "postgresql"
+  }
+}

@@ -2,12 +2,12 @@ version: '2'
 services:
   api:
     build: .
-    command: dev
+    # command: dev
     volumes:
       - .:/usr/app/
       - /usr/app/node_modules
     ports:
-      - "3000:3000"
+      - "5000:5000"
       - "9229:9229"
     environment:
       NODE_ENV: docker
@@ -26,15 +26,7 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_DB: futbol_frenzy
-  adminer:
-    image: adminer:latest
-    volumes:
-      - /sessions
-    ports:
-      - "8081:8080"
-    environment:
-      ADMINER_DESIGN: pappu687
+      POSTGRES_DB: postgres
   redis:
     image: redis
     volumes:
