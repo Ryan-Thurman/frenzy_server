@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const Queue = require('bull');
-const taskListManager = require('./task-list-manager');
+const Queue = require("bull");
+const taskListManager = require("./task-list-manager");
 
 /**
  * Configures and tracks recurring scheduled tasks
@@ -17,13 +17,16 @@ class QueueManager {
    * @return {Array<Bull.Queue>} The newly active task queues
    */
   async init(options) {
-    this._options = Object.assign({
-      redis: {
-        host: process.env.REDIS_HOST,
-        port: process.env.REDIS_PORT || 6379,
-        password: process.env.REDIS_PASS,
+    this._options = Object.assign(
+      {
+        redis: {
+          host: process.env.REDIS_HOST,
+          port: process.env.REDIS_PORT || 6379,
+          password: process.env.REDIS_PASS,
+        },
       },
-    }, options);
+      options
+    );
 
     /**
      * @type {Array<Function>} These will be run hourly to clear out old logs
@@ -32,11 +35,11 @@ class QueueManager {
 
     const tasks = taskListManager.getTaskList();
 
-    for (const task of tasks) {
-      if (!task.isEnabled()) continue;
+    // for (const task of tasks) {
+    //   if (!task.isEnabled()) continue;
 
-      await this.add(task);
-    }
+    await this.add(task);
+    // }
 
     if (this._jobCleanerCallbacks.length) {
       await this._startJobCleaner();
@@ -60,11 +63,11 @@ class QueueManager {
     if (task.cron) {
       taskOptions.repeat = {
         cron: task.cron,
-        tz: 'UTC',
+        tz: "UTC",
       };
     }
     if (task.every) {
-      taskOptions.repeat = {every: task.every};
+      taskOptions.repeat = { every: task.every };
     }
     if (taskOptions.repeat && task.limit) {
       taskOptions.repeat.limit = task.limit;
@@ -82,7 +85,9 @@ class QueueManager {
     this._registerErrorHandlers(taskQueue, task.name);
 
     if (task.timeToKeepLogs > 0) {
-      this._jobCleanerCallbacks.push(async () => this._cleanQueue(taskQueue, task.name, task.timeToKeepLogs));
+      this._jobCleanerCallbacks.push(async () =>
+        this._cleanQueue(taskQueue, task.name, task.timeToKeepLogs)
+      );
     }
 
     this.queues.push(taskQueue);
@@ -94,11 +99,11 @@ class QueueManager {
    * Adds a special recurring job that cleans out old logs from the other repeating jobs
    */
   async _startJobCleaner() {
-    const JOB_CLEANER_NAME = 'jobCleaner';
+    const JOB_CLEANER_NAME = "jobCleaner";
 
     this._jobCleanerQueue = new Queue(JOB_CLEANER_NAME, this._options);
 
-    this._jobCleanerQueue.process(async job => {
+    this._jobCleanerQueue.process(async (job) => {
       for (const cleanJobs of this._jobCleanerCallbacks) {
         await cleanJobs();
       }
@@ -122,12 +127,12 @@ class QueueManager {
    * @param {number} timeToKeepLogs Duration in ms for which to keep a record of completed or failed jobs
    */
   async _cleanQueue(queue, taskName, timeToKeepLogs) {
-    const cleanedCompletedJobs = await queue.clean(timeToKeepLogs, 'completed');
-    const cleanedFailedJobs = await queue.clean(timeToKeepLogs, 'failed');
+    const cleanedCompletedJobs = await queue.clean(timeToKeepLogs, "completed");
+    const cleanedFailedJobs = await queue.clean(timeToKeepLogs, "failed");
 
     if (cleanedCompletedJobs.length || cleanedFailedJobs.length) {
       console.log(
-        'QueueManager: Cleaned %s completed jobs and %s failed jobs for task %s',
+        "QueueManager: Cleaned %s completed jobs and %s failed jobs for task %s",
         cleanedCompletedJobs.length,
         cleanedFailedJobs.length,
         taskName
@@ -141,9 +146,18 @@ class QueueManager {
    * @param {string} taskName
    */
   _registerErrorHandlers(queue, taskName) {
-    queue.on('stalled', job => console.error(`QueueManager: Task ${taskName} has stalled.`, job));
-    queue.on('failed', (job, err) => console.error(`QueueManager: Task ${taskName} has failed.`, job, err));
-    queue.on('error', err => console.error(`QueueManager: Task ${taskName} has produced an error.`, err));
+    queue.on("stalled", (job) =>
+      console.error(`QueueManager: Task ${taskName} has stalled.`, job)
+    );
+    queue.on("failed", (job, err) =>
+      console.error(`QueueManager: Task ${taskName} has failed.`, job, err)
+    );
+    queue.on("error", (err) =>
+      console.error(
+        `QueueManager: Task ${taskName} has produced an error.`,
+        err
+      )
+    );
   }
 
   /**
@@ -153,9 +167,9 @@ class QueueManager {
   async removeAll() {
     // Shut down the job cleaner queue
     if (this._jobCleanerCallbacks.length) {
-      await this._jobCleanerQueue.clean(0, 'wait');
-      await this._jobCleanerQueue.clean(0, 'active');
-      await this._jobCleanerQueue.clean(0, 'delayed');
+      await this._jobCleanerQueue.clean(0, "wait");
+      await this._jobCleanerQueue.clean(0, "active");
+      await this._jobCleanerQueue.clean(0, "delayed");
       await this._jobCleanerQueue.empty();
       await this._jobCleanerQueue.close();
       delete this._jobCleanerQueue;
@@ -164,11 +178,11 @@ class QueueManager {
 
     // Shut down the rest of the queues
     for (const queue of this.queues) {
-      await queue.clean(0, 'completed');
-      await queue.clean(0, 'wait');
-      await queue.clean(0, 'active');
-      await queue.clean(0, 'delayed');
-      await queue.clean(0, 'failed');
+      await queue.clean(0, "completed");
+      await queue.clean(0, "wait");
+      await queue.clean(0, "active");
+      await queue.clean(0, "delayed");
+      await queue.clean(0, "failed");
       await queue.empty();
       await queue.close();
     }
