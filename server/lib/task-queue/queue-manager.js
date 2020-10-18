@@ -35,11 +35,11 @@ class QueueManager {
 
     const tasks = taskListManager.getTaskList();
 
-    // for (const task of tasks) {
-    //   if (!task.isEnabled()) continue;
+    for (const task of tasks) {
+      //   if (!task.isEnabled()) continue;
 
-    await this.add(task);
-    // }
+      await this.add(task);
+    }
 
     if (this._jobCleanerCallbacks.length) {
       await this._startJobCleaner();
