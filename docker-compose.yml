@@ -16,7 +16,6 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
     depends_on:
-      - postgres
       - redis
   postgres:
     image: postgres:10.3-alpine
