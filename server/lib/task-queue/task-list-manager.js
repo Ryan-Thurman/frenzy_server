@@ -2,52 +2,40 @@
 
 'use strict';
 
-class TaskListManager {
-  constructor() {
-    /**
-     * A task configuration object to be consumed by the QueueManager.
-     * Tasks will be run as a separate process.
-     *
-     * @prop {string} name Unique name for this task
-     * @prop {string|Function} process Absolute path to a task processor file, with extension, or processor function
-     * @prop {number} every How often to run the task in ms. Either this or `cron` should be provided.
-     * @prop {number} limit Max number of times the task should repeat
-     * @prop {string} cron Cron string to define how often the task should run; all times in UTC
-     * @prop {number} timeToKeepLogs Duration in ms for which to keep a record of completed or failed jobs
-     * @prop {string} envSwitch Name of an environment variable that must be truthy for this task to be enabled
-     */
-    class Task {
-      /**
-       * @param {string} options.name
-       * @param {string} options.process
-       * @param {number} [options.limit]
-       * @param {string} [options.cron]
-       * @param {number} [options.every]
-       * @param {number} [options.timeToKeepLogs]
-       * @param {string} [options.envSwitch]
-       */
-      constructor(options) {
-        Object.assign(this, options);
-      }
+const SECOND = 1000,
+  MINUTE = 60 * SECOND,
+  HOUR = 60 * MINUTE,
+  DAY = 24 * HOUR;
 
-      /**
-       * @return {boolean} Whether this task is active per application configuration
-       */
-      isEnabled() {
-        if (!this.envSwitch) {
-          return true;
-        }
+class Task {
+  /**
+   * @param {string} options.name
+   * @param {string} options.process
+   * @param {number} [options.limit]
+   * @param {string} [options.cron]
+   * @param {number} [options.every]
+   * @param {number} [options.timeToKeepLogs]
+   * @param {string} [options.envSwitch]
+   */
+  constructor(options) {
+    Object.assign(this, options);
+  }
 
-        return Boolean(process.env[this.envSwitch]);
-      }
+  /**
+   * @return {boolean} Whether this task is active per application configuration
+   */
+  isEnabled() {
+    if (!this.envSwitch) {
+      return true;
     }
 
-    const SECOND = 1000,
-      MINUTE = 60 * SECOND,
-      HOUR = 60 * MINUTE,
-      DAY = 24 * HOUR;
+    return Boolean(process.env[this.envSwitch]);
+  }
+}
 
-    this._defaultTaskList = [
+class TaskListManager {
+  constructor() {
+    this.defaultTaskList = [
       new Task({
         name: 'statsRosterDataImportTask',
         process: require('./tasks/import-stats-rosters'),
@@ -92,7 +80,7 @@ class TaskListManager {
       }),
     ];
 
-    this.resetToDefault();
+    this.taskList = this.defaultTaskList;
 
     this.Task = Task;
   }
@@ -101,7 +89,7 @@ class TaskListManager {
    * @return {Array<Task>} The active task list
    */
   getTaskList() {
-    return this._taskList;
+    return this.taskList;
   }
 
   /**
@@ -114,14 +102,14 @@ class TaskListManager {
      * @private
      * @type {Array<Task>}
      */
-    this._taskList = newTaskList;
+    this.taskList = newTaskList;
   }
 
   /**
    * Resets the task list to its original state
    */
   resetToDefault() {
-    this.useTaskList(this._defaultTaskList);
+    this.useTaskList(this.defaultTaskList);
   }
 }
 
